@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者新規登録</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>管理者新規登録</h1>
+		<form th:action="@{/admin/signup/register}" th:object="${adminForm}" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>姓</th>
+                    <th>名</th>
+                    <th>店舗ID</th>
+                    <th>email</th>
+                    <th>役職ID</th>
+                    <th>権限ID</th>
+                    <th>電話番号</th>
+                    <th>パスワード</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" th:field="*{lastName}"></td>
+                    <td><input type="text" th:field="*{firstName}"></td>
+                    <td><input type="text" th:field="*{shopId}"></td>
+                    <td><input type="email" th:field="*{email}"></td>
+                    <td><input type="text" 	th:field="*{roleId}"></td>
+                    <td><input type="text"  th:field="*{permissionId}"></td>
+                    <td><input type="tel" 	th:field="*{phoneNumber}"></td>
+                    <td><input type="password" 	th:field="*{password}"></td>
+                </tr>
+            </tbody>
+        </table>
+			<div class="button">
+				<button class="submit">新規登録</button>
+	
+			</div>
+		</form>
+		<form action="/admin/list" method="post"th:action="@{/admin/list}">
+			<div class="buttons">
+			            <button class="back-button">管理者一覧画面へ戻る</button>
+		   </div>
+		</form>
+        
+    </div>
+</body>
+</html>

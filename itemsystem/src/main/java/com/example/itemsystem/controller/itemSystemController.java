@@ -19,10 +19,8 @@ import com.example.itemsystem.form.AdminForm;
 import com.example.itemsystem.form.ManufacturesForn;
 import com.example.itemsystem.service.AdminService;
 import com.example.itemsystem.service.AdminServiceImpl;
-
 import com.example.itemsystem.service.ManufactureServiceImpl;
 import com.example.itemsystem.service.ManufacturesService;
-
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -34,13 +32,12 @@ public class itemSystemController {
 	private AdminService adminService;
 	@Autowired
 	private AdminServiceImpl adminServiceImp;
-<<<<<<< HEAD
+
 	@Autowired
 	private ManufacturesService manufacturesService;
 	@Autowired
 	private ManufactureServiceImpl manufacturesServiceImpl;
-=======
->>>>>>> c597a9dc7df2f7403472c427a933c25d155b6689
+
 
 	@GetMapping("/login")
 	public String login() {

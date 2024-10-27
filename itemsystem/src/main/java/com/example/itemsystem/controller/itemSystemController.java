@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.itemsystem.entiry.AdminEntity;
 import com.example.itemsystem.form.AdminForm;
 import com.example.itemsystem.service.AdminService;
-import com.example.itemsystem.service.AdminServiceImp;
+import com.example.itemsystem.service.AdminServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -27,7 +27,7 @@ public class itemSystemController {
 	@Autowired
 	private AdminService adminService;
 	@Autowired
-	private AdminServiceImp adminServiceImp;
+	private AdminServiceImpl adminServiceImp;
 
 	@GetMapping("/login")
 	public String login() {

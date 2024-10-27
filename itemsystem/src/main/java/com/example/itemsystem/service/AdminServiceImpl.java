@@ -21,7 +21,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class AdminServiceImp implements AdminService {
+public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private AdminRepository adminRepository;

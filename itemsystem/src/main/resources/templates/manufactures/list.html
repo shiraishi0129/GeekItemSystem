@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>メーカー一覧</title>
+</head>
+<body>
+    <h1>メーカー一覧</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>メーカー名</th>
+                <th>作成日時</th>
+                <th>更新日時</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="manufactures : ${manufacturesList}">
+                <td th:text="${manufactures.id}"></td>
+                <td th:text="${manufactures.name}"></td>
+                <td th:text="${manufactures.created_at}"></td>
+                <td th:text="${manufactures.updated_at}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+	<div class="buttons">
+			<form action="/manufactures/signup" method="post"th:action="@{/manufactures/signup}">
+				<button>メーカ新規登録画面へ</button>
+			</form>
+			<form th:action="@{/manufactures/edit/:id(id=${id})}" method="get">
+			    <input type="text" id="id" name="id" placeholder="IDを入力" required>
+			    <button type="submit">IDを入力してメーカ編集画面へ</button>
+			</form>
+	
+	
+	    </div>
+		<form action="/top" method="post"	th:action="@{/top}">
+							<button class="back-button">TOPメニューへ戻る</button>
+		</form>
+</body>
+</html>

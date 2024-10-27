@@ -12,12 +12,17 @@
         <div class="menu">
             <button class="menu-button">商品一覧</button>
             <button class="menu-button">店舗一覧</button>
-            <button class="menu-button">管理者一覧</button>
+			<form action="/admin/list" method="post"th:action="@{/admin/list}">
+				<button class="menu-button">管理者一覧</button>
+			</form>
+            
             <button class="menu-button">商品発注履歴一覧</button>
             <button class="menu-button">メーカー一覧</button>
             <button class="menu-button">カテゴリ一覧</button>
         </div>
-        <button class="logout-button">ログアウト</button>
+		<form action="/logout" method="post"th:action="@{/logout}">
+			<button class="logout-button">ログアウト</button>
+		</form>    
         <div class="profile">
             <button class="profile-button">管理者プロフィール</button>
         </div>

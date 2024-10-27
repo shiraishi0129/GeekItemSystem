@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メーカ新規登録</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>メーカ新規登録</h1>
+		<form th:action="@{/manufactures/signup/register}" th:object="${manufacturesForm}" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>名前</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" th:field="*{Name}"></td>
+                </tr>
+            </tbody>
+        </table>
+			<div class="button">
+				<button class="submit">新規登録</button>
+	
+			</div>
+		</form>
+		<form action="/manufactures/list" method="post"th:action="@{/manufactures/list}">
+			<div class="buttons">
+			            <button class="back-button">管理者一覧画面へ戻る</button>
+		   </div>
+		</form>
+        
+    </div>
+</body>
+</html>

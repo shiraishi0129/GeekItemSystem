@@ -14,9 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.itemsystem.entiry.AdminEntity;
+import com.example.itemsystem.entiry.ManufacturesEntity;
 import com.example.itemsystem.form.AdminForm;
+import com.example.itemsystem.form.ManufacturesForn;
 import com.example.itemsystem.service.AdminService;
-import com.example.itemsystem.service.AdminServiceImp;
+import com.example.itemsystem.service.AdminServiceImpl;
+import com.example.itemsystem.service.ManufactureServiceImpl;
+import com.example.itemsystem.service.ManufacturesService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -27,7 +31,11 @@ public class itemSystemController {
 	@Autowired
 	private AdminService adminService;
 	@Autowired
-	private AdminServiceImp adminServiceImp;
+	private AdminServiceImpl adminServiceImp;
+	@Autowired
+	private ManufacturesService manufacturesService;
+	@Autowired
+	private ManufactureServiceImpl manufacturesServiceImpl;
 
 	@GetMapping("/login")
 	public String login() {
@@ -49,6 +57,8 @@ public class itemSystemController {
 	}
 	
 	
+	
+	//管理者情報処理↓
 	@GetMapping("/admin/signup")
 	public String adminsignup(Model model) {
 		model.addAttribute("adminForm",new AdminForm());
@@ -89,7 +99,7 @@ public class itemSystemController {
 	}
 	
 	 @GetMapping("/admin/edit/:id")
-	    public String edit(@RequestParam("id") Long id,Model model) {
+	    public String adminedit(@RequestParam("id") Long id,Model model) {
 			Optional<AdminEntity> adminEntity = adminServiceImp.getAdminEntityById(id);
 			   if (adminEntity.isPresent()) {
 		            AdminEntity admin = adminEntity.get();
@@ -104,7 +114,7 @@ public class itemSystemController {
 	    }
 
 	    @PostMapping("/admin/edit/:id/update")
-	    public String update(@RequestParam("id") Long id, @Valid @ModelAttribute AdminForm adminForm, BindingResult bindingResult, Model model) {
+	    public String adminupdate(@RequestParam("id") Long id, @Valid @ModelAttribute AdminForm adminForm, BindingResult bindingResult, Model model) {
 	        if (bindingResult.hasErrors()) {
 	            model.addAttribute("adminList", adminServiceImp.getAllAdmins());
 	            return "admin/edit"; // エラーがある場合、編集画面を再表示
@@ -133,14 +143,91 @@ public class itemSystemController {
 			   model.addAttribute("errorMessage", "指定された管理者が見つかりません。");
 		        return "error"; // エラーページを返す
 		   }
-	 }
-	    
+	 } 
 	 @PostMapping("/admin/delete/:id")
 	public String deleteAdmin(@RequestParam("id") Long id, Model model){
 		 adminServiceImp.deleteAdmin(id);
 		    return "redirect:/admin/list";
-	 }   
+	 }
+	 //管理者情報の処理↑
 	
+	 
+	 
+	 
+	 //メーカ情報の処理
+		//管理者一覧画面へポスト処理
+		@PostMapping("/manufactures/list")
+		public String manufactureslistpost() {
+			return "redirect:list";
+		}
+		//管理者一覧画面でのゲット処理
+		@GetMapping("/manufactures/list")
+		public String manufactureslistget(Model model) {
+			//manufacturesエンティティのデータを取得する為に、サービスクラスから取得
+			 List<ManufacturesEntity> manufacturesList = manufacturesServiceImpl.getAllManufactures();
+			 System.out.println("Manufactures List Size: " + manufacturesList.size()); 
+			 model.addAttribute("manufacturesList", manufacturesList);
+			return "/manufactures/list";
+			
+		}
+		
+		@GetMapping("/manufactures/signup")
+		public String manufacturessignup(Model model) {
+			model.addAttribute("manufacturesForm",new ManufacturesForn());
+			return("manufactures/signup");
+		}
+		
+		@PostMapping("/manufactures/signup")
+		public String manufacturessignuppost(){
+			return("redirect:signup");
+		}
+		@PostMapping("/manufactures/signup/register")	
+		public String manufactures(@Validated @ModelAttribute("manufacturesForm") ManufacturesForn manufacturesForm, BindingResult errorResult, Model model,HttpServletRequest request){
+			
+			 if (errorResult.hasErrors()) {
+				 model.addAttribute("manufacturesForm", manufacturesForm); 
+		          return "admin/signup";
+		        }
+		     manufacturesService.saveManufactures(manufacturesForm);
+			 
+			return("top");
+			
+		}
+		
+		 @GetMapping("/manufactures/edit/:id")
+		    public String manufacturesedit(@RequestParam("id") Long id,Model model) {
+				Optional<ManufacturesEntity> manufactuersEntity = manufacturesServiceImpl.getManufacturesEntityById(id);
+				   if (manufactuersEntity.isPresent()) {
+			            ManufacturesEntity manufactures = manufactuersEntity.get();
+			            model.addAttribute("manufacturesForm", manufactures);
+			            model.addAttribute("manufactures", List.of(manufactures)); 
+			            return "manufactures/edit";
+			        } 
+				   else {
+					   model.addAttribute("errorMessage", "指定された管理者が見つかりません。");
+				        return "error"; // エラーページを返す
+				   }
+		    }
+		 
+		 @PostMapping("/manufactures/edit/:id/update")
+		    public String manufacturesupdate(@RequestParam("id") Long id, @Valid @ModelAttribute ManufacturesForn manufacturesForm, BindingResult bindingResult, Model model) {
+		        if (bindingResult.hasErrors()) {
+		            model.addAttribute("manufacturesList", manufacturesServiceImpl.getAllManufactures());
+		            return "admin/edit"; // エラーがある場合、編集画面を再表示
+		        }
+		        
+		        Optional<ManufacturesEntity> ManufacturesEntity = manufacturesServiceImpl.getManufacturesEntityById(id);
+				   if (ManufacturesEntity.isPresent()) {
+					   manufacturesServiceImpl.updateManufactures(manufacturesForm);
+			        } 
+				   else {
+					   
+				   }
+				   model.addAttribute("manufacturesentity", manufacturesForm);
+		        return "redirect:/manufactures/list"; // 更新後に一覧画面にリダイレクト
+		    }
+	 //
+	 
 	//ログアウト
 	@PostMapping("logout")
 	public String logout() {

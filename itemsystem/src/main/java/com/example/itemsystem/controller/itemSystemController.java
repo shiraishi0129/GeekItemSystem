@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.itemsystem.entiry.AdminEntity;
+import com.example.itemsystem.entiry.ItemLargeCategoryEntity;
 import com.example.itemsystem.entiry.ManufacturesEntity;
 import com.example.itemsystem.form.AdminForm;
 import com.example.itemsystem.form.ManufacturesForn;
 import com.example.itemsystem.service.AdminService;
 import com.example.itemsystem.service.AdminServiceImpl;
+import com.example.itemsystem.service.ItemLargeCategoryService;
+import com.example.itemsystem.service.ItemLargeCategoryServiceImpl;
 import com.example.itemsystem.service.ManufactureServiceImpl;
 import com.example.itemsystem.service.ManufacturesService;
 
@@ -37,6 +40,10 @@ public class itemSystemController {
 	private ManufacturesService manufacturesService;
 	@Autowired
 	private ManufactureServiceImpl manufacturesServiceImpl;
+	@Autowired
+	private ItemLargeCategoryService itemLargeCategoryService;
+	@Autowired
+	private ItemLargeCategoryServiceImpl itemLargeCategoryServiceImpl;
 
 
 	@GetMapping("/login")
@@ -157,12 +164,12 @@ public class itemSystemController {
 	 
 	 
 	 //メーカ情報の処理
-		//管理者一覧画面へポスト処理
+		//メーカ一覧画面へポスト処理
 		@PostMapping("/manufactures/list")
 		public String manufactureslistpost() {
 			return "redirect:list";
 		}
-		//管理者一覧画面でのゲット処理
+		//メーカ一覧画面でのゲット処理
 		@GetMapping("/manufactures/list")
 		public String manufactureslistget(Model model) {
 			//manufacturesエンティティのデータを取得する為に、サービスクラスから取得
@@ -228,6 +235,38 @@ public class itemSystemController {
 				   model.addAttribute("manufacturesentity", manufacturesForm);
 		        return "redirect:/manufactures/list"; // 更新後に一覧画面にリダイレクト
 		    }
+	 //
+		@PostMapping("/category/list")
+			public String categorylistpost() {
+				return "redirect:list";
+			}
+			//管理者一覧画面でのゲット処理
+			@GetMapping("/category/list")
+			public String categorylistget(Model model) {
+				//ItemLargeategoryエンティティのデータを取得する為に、サービスクラスから取得
+				 List<ItemLargeCategoryEntity> itemLargeCategoryList = itemLargeCategoryServiceImpl.getAllItemLargeCategory();
+				 System.out.println("Manufactures List Size: " + itemLargeCategoryList.size()); 
+				 model.addAttribute("itemLargeCategoryList", itemLargeCategoryList);
+				return "/category/list";
+				
+			}
+		 
+			 @GetMapping("/category/detail/:id")
+			 	public String showCategoryDetails(@RequestParam("id") Long id, Model model) {
+			   	Optional<ItemLargeCategoryEntity> itemLargeCategoryEntity = itemLargeCategoryServiceImpl.getItemLargeCategoryEntityById(id);
+			   		if (itemLargeCategoryEntity.isPresent()) {
+				        ItemLargeCategoryEntity itemLargeCategory = itemLargeCategoryEntity.get();
+				        model.addAttribute("itemLargeCategoryForm", itemLargeCategory); // `contact`オブジェクトを渡す
+				        model.addAttribute("itemLargeCategory", List.of(itemLargeCategory)); // adminリストを設定
+				        return "category/detail";
+			   		} 
+			   		else {
+					   model.addAttribute("errorMessage", "指定された管理者が見つかりません。");
+				        return "error"; // エラーページを返す
+				   }
+			 } 
+	 //
+		 
 	 //
 	 
 	//ログアウト

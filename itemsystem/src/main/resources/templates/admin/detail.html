@@ -43,10 +43,8 @@
 				                <button type="submit">削除</button>
 				</div>
 			</form>
-            
-
-		<form>
-			<button type="button">管理者一覧画面へ戻る</button>
+		<form action="/admin/list" method="post"th:action="@{/admin/list}">
+			<button type="submit">管理者一覧画面へ戻る</button>
 		</form>
     </div>
 </body>

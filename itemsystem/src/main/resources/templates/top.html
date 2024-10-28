@@ -20,8 +20,9 @@
 			<form action="/manufactures/list" method="post"th:action="@{/manufactures/list}">
 				<button class="menu-button">メーカー一覧</button>
 			</form>
-            
-            <button class="menu-button">カテゴリ一覧</button>
+            <form action="/category/list" method="post"th:action="@{/category/list}">
+				<button class="menu-button">カテゴリ一覧</button>
+			</form>
         </div>
 		<form action="/logout" method="post"th:action="@{/logout}">
 			<button class="logout-button">ログアウト</button>

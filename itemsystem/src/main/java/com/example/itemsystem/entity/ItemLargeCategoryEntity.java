@@ -1,4 +1,4 @@
-package com.example.itemsystem.entiry;
+package com.example.itemsystem.entity;
 
 import java.time.LocalDateTime;
 
@@ -12,11 +12,10 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-
 @Entity
 @Data
-@Table(name = "manufactures")
-public class ManufacturesEntity {
+@Table(name = "item_large_category")
+public class ItemLargeCategoryEntity {
 	
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

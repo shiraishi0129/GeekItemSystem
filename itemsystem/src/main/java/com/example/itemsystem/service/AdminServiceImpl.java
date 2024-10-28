@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.itemsystem.entiry.AdminEntity;
-import com.example.itemsystem.entiry.PermissionEntity;
-import com.example.itemsystem.entiry.RoleEntity;
-import com.example.itemsystem.entiry.ShopEntity;
+import com.example.itemsystem.entity.AdminEntity;
+import com.example.itemsystem.entity.PermissionEntity;
+import com.example.itemsystem.entity.RoleEntity;
+import com.example.itemsystem.entity.ShopEntity;
 import com.example.itemsystem.form.AdminForm;
 import com.example.itemsystem.repository.AdminRepository;
 import com.example.itemsystem.repository.PermissionRepository;

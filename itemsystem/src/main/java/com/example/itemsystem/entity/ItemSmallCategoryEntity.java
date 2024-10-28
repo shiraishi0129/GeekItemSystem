@@ -1,4 +1,4 @@
-package com.example.itemsystem.entiry;
+package com.example.itemsystem.entity;
 
 import java.time.LocalDateTime;
 
@@ -16,16 +16,16 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "item_under_category")
-public class ItemUnderCategoryEntity {
+@Table(name = "item_small_category")
+public class ItemSmallCategoryEntity {
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "item_large_category_id", referencedColumnName = "id")
-    private ItemLargeCategoryEntity itemlargecategory;
+	@JoinColumn(name = "item_under_category_id", referencedColumnName = "id")
+    private ItemUnderCategoryEntity itemUnderCategory;
 	
 	@Column(name = "name")
 	private String name;

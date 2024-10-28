@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.itemsystem.entiry.ItemLargeCategoryEntity;
+import com.example.itemsystem.entity.ItemLargeCategoryEntity;
 import com.example.itemsystem.form.ItemLargelCategoryForm;
 import com.example.itemsystem.repository.ItemLargeCategoryRepository;
 

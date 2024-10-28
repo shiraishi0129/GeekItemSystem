@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.itemsystem.entiry.ManufacturesEntity;
+import com.example.itemsystem.entity.ManufacturesEntity;
 import com.example.itemsystem.form.ManufacturesForn;
 import com.example.itemsystem.repository.ManufactresRepository;
 

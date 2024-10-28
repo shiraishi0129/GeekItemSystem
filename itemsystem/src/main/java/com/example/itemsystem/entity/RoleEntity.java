@@ -1,4 +1,4 @@
-package com.example.itemsystem.entiry;
+package com.example.itemsystem.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

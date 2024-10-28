@@ -190,3 +190,13 @@ button:hover {
     background-color: #bbb;
 }
 
+
+.pagination {
+    margin: 20px 0;
+}
+
+button, select, input[type="text"] {
+    margin: 5px;
+    padding: 8px 12px;
+    font-size: 16px;
+}

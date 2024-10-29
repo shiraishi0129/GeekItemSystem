@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者一覧</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>管理者一覧</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>発注者</th>
+                <th>商品名</th>
+				<th>発注数</th>
+11              <th>合計金額</th>
+                <th>作成日時</th>
+                <th>更新日時</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <!-- adminListに格納された各AdminEntityのプロパティをループして表示 -->
+            <tr th:each="orderhistory : ${orderhistoryList}">
+                <td	th:text="${orderhistory.id}"></td>
+                <td th:text="${orderhistory.shop.name}"></td>
+                <td th:text="${orderhistory.item.name}"></td>
+         		<td th:text="${orderhistory.numberOfOrders}"></td>
+				<td th:text="${orderhistory.totalAmount}"></td>
+				<td th:text="${orderhistory.created_at}"></td>
+                <td th:text="${orderhistory.updated_at}"></td> 
+            </tr>
+        </tbody>
+    </table>
+	<form action="/top" method="post"	th:action="@{/top}">
+						<button class="back-button">TOPメニューへ戻る</button>
+	</form>
+    
+</body>
+</html>

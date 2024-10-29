@@ -19,6 +19,7 @@ import com.example.itemsystem.entity.AdminEntity;
 import com.example.itemsystem.entity.ItemEntity;
 import com.example.itemsystem.entity.ItemLargeCategoryEntity;
 import com.example.itemsystem.entity.ManufacturesEntity;
+import com.example.itemsystem.entity.OrderHistoryEntity;
 import com.example.itemsystem.entity.ShopItemEntity;
 import com.example.itemsystem.form.AdminForm;
 import com.example.itemsystem.form.ManufacturesForn;
@@ -27,6 +28,7 @@ import com.example.itemsystem.repository.ItemLargeCategoryRepository;
 import com.example.itemsystem.repository.ItemRepository;
 import com.example.itemsystem.repository.ItemSmallCategoryRepository;
 import com.example.itemsystem.repository.ItemUnderCategoryRepository;
+import com.example.itemsystem.repository.OrderHistoryReopsitory;
 import com.example.itemsystem.repository.ShopItemRepository;
 import com.example.itemsystem.service.AdminService;
 import com.example.itemsystem.service.AdminServiceImpl;
@@ -36,6 +38,7 @@ import com.example.itemsystem.service.ItemService;
 import com.example.itemsystem.service.ItemServiceImpl;
 import com.example.itemsystem.service.ManufactureServiceImpl;
 import com.example.itemsystem.service.ManufacturesService;
+import com.example.itemsystem.service.OrderHistoryServiceImpl;
 import com.example.itemsystem.service.ShopItemService;
 import com.example.itemsystem.service.ShopItemServiceServiceImpl;
 
@@ -77,6 +80,11 @@ public class itemSystemController {
     private AdminRepository adminRepository;
     @Autowired
     private ItemRepository itemRepository;
+    @Autowired
+    private OrderHistoryReopsitory orderHistoryRepository;
+	@Autowired
+	private OrderHistoryServiceImpl orderHistoryServiceImpl;
+    
     
 
 	
@@ -391,31 +399,63 @@ public class itemSystemController {
 			            return "item/error"; // エラーページを返す
 			        }
 			    }
-
-
-			    
-			   @PostMapping("/item/older/complete")
+			    @PostMapping("/item/older/complete")
 			    public String orderItem(@RequestParam("id") Long id, @RequestParam("quantityOfStock") Long quantityOfStock, Principal principal) {
-				    
-			    	// ログイン中のユーザーからshopIDを取得
+			        
+			        // ログイン中のユーザーからshopIDを取得
 			        AdminEntity admin = adminRepository.findByEmail(principal.getName());
 			        Long shopId = admin.getShopId();
 
-			        // shopItemテーブルに保存
+			        // shopItemテーブルからshopIdとitemIdに一致するデータを検索
 			        ShopItemEntity shopItem = shopItemRepository.findByShop_IdAndItem_Id(shopId, id);
 			        if (shopItem == null) {
 			            shopItem = new ShopItemEntity();
 			            shopItem.setShopId(shopId);
 			            shopItem.setItemId(id);
+			            shopItem.setQuantityOfStock(quantityOfStock); // 初回の場合、そのまま設定
+			        } else {
+			            // 既存データがある場合、現在の在庫数に発注数を追加
+			            shopItem.setQuantityOfStock(shopItem.getQuantityOfStock() + quantityOfStock);
 			        }
-			    	shopItem.setQuantityOfStock(quantityOfStock); // 発注数を在庫数として設定
+
+			        // shopItemテーブルに保存
 			        shopItemRepository.save(shopItem);
+
+			        // 発注履歴の作成と保存
+			        OrderHistoryEntity orderHistory = new OrderHistoryEntity();
+			        orderHistory.setAdmin(admin);
+			        orderHistory.setShop(shopItem.getShop());
+			        orderHistory.setItem(shopItem.getItem());
+			        orderHistory.setNumberOfOrders(quantityOfStock);
+			        orderHistory.setTotalAmount(calculateTotalAmount(quantityOfStock, shopItem.getItem()));
+			        orderHistoryRepository.save(orderHistory);
+
 			        System.out.println("Received id: " + id + ", Quantity: " + quantityOfStock);
 			        return "redirect:/item/list"; 
 			    }
-		
-				  
+
+			    // 合計金額の計算メソッド（必要に応じて金額を取得して計算）
+			    private Long calculateTotalAmount(Long quantity, ItemEntity item) {
+			        return item.getPurchasePrice() * quantity;
+			    }
 	 //
+			    
+	//
+				 @PostMapping("/orderhistory/list")
+					public String orderhistorylistpost() {
+						return "redirect:list";
+					}
+				 
+					@GetMapping("/orderhistory/list")
+					public String orderhistorylistget(Model model) {
+						//manufacturesエンティティのデータを取得する為に、サービスクラスから取得
+						 List<OrderHistoryEntity> orderhistoryList = orderHistoryServiceImpl.getAllItem();
+						 System.out.println("Manufactures List Size: " + orderhistoryList.size()); 
+						 model.addAttribute("orderhistoryList", orderhistoryList);
+						return "orderhistory/list";
+						
+					}
+	//
 
 	//ログアウト
 	@PostMapping("logout")

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品一覧</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>商品一覧</h1>
+	<div class="table-container">
+	    <table>
+	        <thead>
+	            <tr>
+	                <th>ID</th>
+	                <th>商品名</th>
+	                <th>作成日時</th>
+	                <th>更新日時</th>
+	
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <!-- adminListに格納された各AdminEntityのプロパティをループして表示 -->
+	            <tr th:each="item : ${itemList}">
+	                <td>
+						<a th:href="@{/item/detail/:id(id=${item.id})}"th:text="${item.id}"></a>
+					</td>
+	                <td th:text="${item.name}"></td>
+	         		<td th:text="${item.created_at}"></td>
+	                <td th:text="${item.updated_at}"></td> 
+	            </tr>
+	        </tbody>
+	    </table>
+		
+		<div class="pagination">
+		    <button th:if="${currentPage != null and currentPage > 0}" 
+		            th:onclick="'location.href=\'/items?page=' + (${currentPage} - 1) + '&searchQuery=' + '${searchQuery}' + '&category=' + '${category}' + '\''">◀</button>
+		    
+		    <span th:text="${currentPage != null ? currentPage + 1 : 1} + ' / ' + (${totalPages} != null ? totalPages : 1)">1 / xx</span>
+		    
+		    <button th:if="${currentPage != null and currentPage + 1 < totalPages}" 
+		            th:onclick="'location.href=\'/items?page=' + (${currentPage} + 1) + '&searchQuery=' + '${searchQuery}' + '&category=' + '${category}' + '\''">▶</button>
+		</div>
+
+	</div>
+
+	<form action="/search" method="get">
+		<div>
+			<select name="largeCategoryId">
+				        <!-- 大カテゴリーの選択肢 -->
+						<option value="">大カテゴリー</option>
+						 <option value="1">冷蔵庫・洗濯機・掃除機</option>
+						 <option value="2">電子レンジ・炊飯器</option>
+						 <option value="3">エアコン・空調</option>
+						 <option value="4">テレビ・レコーダー</option>
+				    </select>
+				    <select name="underCategoryId">
+				        <!-- 中カテゴリーの選択肢 -->
+						<option value="">中カテゴリー</option>
+						<option value="1">冷蔵庫・冷凍庫</option>
+						<option value="2">洗濯機・洗濯乾燥機</option>
+						<option value="3">掃除機・クリーナー</option>
+						<option value="4">オーブンレンジ・電子レンジ</option>
+						<option value="5">炊飯器</option>
+						<option value="6">エアコン・窓用エアコン</option>
+						<option value="7">扇風機・サーキュレーター</option>
+						<option value="8">暖房器具</option>
+						<option value="9">テレビ</option>
+						<option value="10">レコーダー</option>
+						<option value="11">プロジェクター</option>
+				    </select>
+				    <select name="smallCategoryId">
+				        <!-- 小カテゴリーの選択肢 -->
+						<option value="">小カテゴリー</option>
+					    <option value="1">冷蔵庫</option>
+					    <option value="2">冷凍庫</option>
+					    <option value="3">保冷・冷温ボックス</option>
+					    <option value="4">製氷機</option>
+					    <option value="5">冷蔵庫関連品</option>
+					    <option value="6">ドラム式洗濯乾燥機</option>
+					    <option value="7">縦型洗濯機</option>
+					    <option value="8">2槽式洗濯機</option>
+					    <option value="9">ハンディ・小型洗濯機</option>
+					    <option value="10">衣類乾燥機</option>
+					    <option value="11">洗濯機関連品</option>
+					    <option value="12">衣類乾燥機・関連品</option>
+					    <option value="13">スティッククリーナー</option>
+					    <option value="14">サイクロン式掃除機</option>
+					    <option value="15">紙パック式掃除機</option>
+					    <option value="16">ロボット掃除機</option>
+					    <option value="17">ハンディクリーナー</option>
+					    <option value="18">電子レンジ</option>
+					    <option value="19">オーブンレンジ</option>
+					    <option value="20">スチームオーブンレンジ</option>
+					    <option value="21">炊飯器</option>
+					    <option value="22">保温ジャー</option>
+					    <option value="23">ガス炊飯器</option>
+					    <option value="24">エアコン</option>
+					    <option value="25">窓用エアコン</option>
+					    <option value="26">エアコン関連品</option>
+					    <option value="27">リビング扇風機</option>
+					    <option value="28">タワー型扇風機</option>
+					    <option value="29">羽根無し扇風機</option>
+					    <option value="30">サーキュレーター</option>
+					    <option value="31">携帯型扇風機</option>
+					    <option value="32">卓上型扇風機</option>
+					    <option value="33">電気ファンヒーター</option>
+					    <option value="34">電気ストーブ</option>
+					    <option value="35">セラミックヒーター</option>
+					    <option value="36">こたつ・こたつ布団</option>
+					    <option value="37">ホットカーペット・関連品</option>
+					    <option value="38">液晶テレビ</option>
+					    <option value="39">有機ELテレビ</option>
+					    <option value="40">ポータブルテレビ</option>
+					    <option value="41">テレビ関連品</option>
+					    <option value="42">ブルーレイレコーダー</option>
+					    <option value="43">HDDレコーダー</option>
+					    <option value="44">レコーダー関連品</option>
+					    <option value="45">プロジェクター本体</option>
+					    <option value="46">プロジェクター関連品</option>
+					    <option value="47">プロジェクタースクリーン</option>
+					    <option value="48">プロジェクタースクリーン関連品</option>
+				    </select>
+		</div>
+	    
+	    <input type="text" name="name" placeholder="商品名">
+	    <button type="submit">検索</button>
+	</form>
+	
+	<form action="/top" method="post"	th:action="@{/top}">
+						<button class="back-button">TOPメニューへ戻る</button>
+	</form>
+    
+</body>
+</html>
+

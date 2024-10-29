@@ -16,20 +16,27 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "item_under_category")
-public class ItemUnderCategoryEntity {
-	@Id
+@Table(name = "shop_item")
+public class ShopItemEntity {
+    @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-	
-	@ManyToOne
-	@JoinColumn(name = "item_large_category_id", referencedColumnName = "id")
-    private ItemLargeCategoryEntity itemLargeCategory;
-	
-	@Column(name = "name")
-	private String name;
-	
+   
+    @ManyToOne
+    @JoinColumn(name = "shop_id", referencedColumnName = "id")
+    private ShopEntity shop;
+    
+    @ManyToOne
+    @JoinColumn(name = "item_id", referencedColumnName = "id")
+    private ItemEntity item;
+   
+ /*  @Column(name = "sale_price", nullable = false)
+    private Long salePrice;
+*/
+    @Column(name = "quantity_of_stock", nullable = false)
+    private Long quantityOfStock;
+    
     @Column(name = "created_at", nullable =false ,updatable = false)
     private LocalDateTime created_at;
     
@@ -50,5 +57,22 @@ public class ItemUnderCategoryEntity {
     protected void onUpdate() {
         this.updated_at = LocalDateTime.now();
     }
+
+	public void setItemId(Long id) {
+		// TODO 自動生成されたメソッド・スタブ
+		this.item = new ItemEntity(); // 新しいItemEntityを作成
+	    this.item.setId(id); // itemIdを設定
+		
+	}
+
+	public void setShopId(Long shopId) {
+		// TODO 自動生成されたメソッド・スタブ
+		this.shop = new ShopEntity(); // 新しいItemEntityを作成
+	    this.shop.setId(shopId); // itemIdを設定
+	}
+	
+	public void setQuantityOfStock(Long quantityOfStock) {
+	    this.quantityOfStock = quantityOfStock; // 引数の値をフィールドに設定
+	}
 
 }

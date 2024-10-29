@@ -1,6 +1,7 @@
 package com.example.itemsystem.entity;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -82,6 +83,11 @@ public class AdminEntity {
 	    protected void onUpdate() {
 	        this.updated_at = LocalDateTime.now();
 	    }
+
+		public Optional<ShopEntity> map(Object object) {
+			// TODO 自動生成されたメソッド・スタブ
+			return null;
+		}
 	    
 
 }

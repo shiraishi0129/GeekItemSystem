@@ -1,5 +1,6 @@
 package com.example.itemsystem.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,20 +11,33 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.itemsystem.entiry.AdminEntity;
-import com.example.itemsystem.entiry.ItemLargeCategoryEntity;
-import com.example.itemsystem.entiry.ManufacturesEntity;
+import com.example.itemsystem.entity.AdminEntity;
+import com.example.itemsystem.entity.ItemEntity;
+import com.example.itemsystem.entity.ItemLargeCategoryEntity;
+import com.example.itemsystem.entity.ManufacturesEntity;
+import com.example.itemsystem.entity.ShopItemEntity;
 import com.example.itemsystem.form.AdminForm;
 import com.example.itemsystem.form.ManufacturesForn;
+import com.example.itemsystem.repository.AdminRepository;
+import com.example.itemsystem.repository.ItemLargeCategoryRepository;
+import com.example.itemsystem.repository.ItemRepository;
+import com.example.itemsystem.repository.ItemSmallCategoryRepository;
+import com.example.itemsystem.repository.ItemUnderCategoryRepository;
+import com.example.itemsystem.repository.ShopItemRepository;
 import com.example.itemsystem.service.AdminService;
 import com.example.itemsystem.service.AdminServiceImpl;
 import com.example.itemsystem.service.ItemLargeCategoryService;
 import com.example.itemsystem.service.ItemLargeCategoryServiceImpl;
+import com.example.itemsystem.service.ItemService;
+import com.example.itemsystem.service.ItemServiceImpl;
 import com.example.itemsystem.service.ManufactureServiceImpl;
 import com.example.itemsystem.service.ManufacturesService;
+import com.example.itemsystem.service.ShopItemService;
+import com.example.itemsystem.service.ShopItemServiceServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -35,7 +49,6 @@ public class itemSystemController {
 	private AdminService adminService;
 	@Autowired
 	private AdminServiceImpl adminServiceImp;
-
 	@Autowired
 	private ManufacturesService manufacturesService;
 	@Autowired
@@ -44,6 +57,29 @@ public class itemSystemController {
 	private ItemLargeCategoryService itemLargeCategoryService;
 	@Autowired
 	private ItemLargeCategoryServiceImpl itemLargeCategoryServiceImpl;
+	@Autowired
+    private ItemService itemService;
+	@Autowired
+	private ItemServiceImpl itemServiceImpl;
+	@Autowired
+    private ShopItemService shopItemService;
+	@Autowired
+	private ShopItemServiceServiceImpl shopItemServiceImpl;
+    @Autowired
+    private ItemLargeCategoryRepository itemLargeCategoryRepository;
+    @Autowired
+    private ItemUnderCategoryRepository itemUnderCategoryRepository;
+    @Autowired
+    private ItemSmallCategoryRepository itemSmallCategoryRepository;
+    @Autowired
+    private ShopItemRepository shopItemRepository;
+    @Autowired
+    private AdminRepository adminRepository;
+    @Autowired
+    private ItemRepository itemRepository;
+    
+
+	
 
 
 	@GetMapping("/login")
@@ -266,9 +302,121 @@ public class itemSystemController {
 				   }
 			 } 
 	 //
-		 
+			// 商品一覧表示と検索機能
+			 @PostMapping("/item/list")
+				public String itemlistpost() {
+					return "redirect:list";
+				}
+			 
+				@GetMapping("/item/list")
+				public String itemlistget(Model model) {
+					//manufacturesエンティティのデータを取得する為に、サービスクラスから取得
+					 List<ItemEntity> itemList = itemServiceImpl.getAllItem();
+					 System.out.println("Manufactures List Size: " + itemList.size()); 
+					 model.addAttribute("itemList", itemList);
+					return "item/list";
+					
+				}
+			
+
+			    @GetMapping("/items")
+			    public String getItemList(
+			            @RequestParam(defaultValue = "0") int page,
+			            @RequestParam(required = false) String searchQuery,
+			            @RequestParam(required = false) String category,
+			            Model model) {
+			        
+			        // 商品リストを取得
+			        List<ItemEntity> itemList = itemServiceImpl.findItems(page, searchQuery, category);
+			        
+			        // ページ情報の取得
+			        int totalPages = itemServiceImpl.getTotalPages(searchQuery, category);
+			        
+			        // モデルにデータを追加
+			        model.addAttribute("itemList", itemList);
+			        model.addAttribute("currentPage", page);
+			        model.addAttribute("totalPages", totalPages);
+			        model.addAttribute("searchQuery", searchQuery);
+			        model.addAttribute("category", category);
+			        
+			        return "item/list"; // itemList.htmlに遷移
+			    }
+
+			    @GetMapping("/search")
+			    public String searchItems(
+			            @RequestParam String name,
+			            @RequestParam(required = false) String largeCategoryId,
+			            @RequestParam(required = false) String underCategoryId,
+			            @RequestParam(required = false) String smallCategoryId,
+			            Model model) {
+			        
+			        // 商品を検索
+			        List<ItemEntity> searchResults = itemService.searchItems(name, largeCategoryId, underCategoryId, smallCategoryId);
+			        
+			        // モデルにデータを追加
+			        model.addAttribute("itemList", searchResults);
+			        model.addAttribute("searchQuery", name);
+			        model.addAttribute("largeCategoryId", largeCategoryId);
+			        model.addAttribute("underCategoryId", underCategoryId);
+			        model.addAttribute("smallCategoryId", smallCategoryId);
+			        
+			        return "item/list"; // itemList.htmlに遷移
+			    }
+			 
+			    // 商品詳細ページにリダイレクトする
+			    @GetMapping("/item/detail/:id")
+			    public String itemDetail(@RequestParam Long id, Model model) {
+			    	Optional<ItemEntity> itemEntity = itemServiceImpl.getItemEntityById(id);
+			   		if (itemEntity.isPresent()) {
+				        ItemEntity item = itemEntity.get();
+				        //model.addAttribute("itemForm", item); // `contact`オブジェクトを渡す
+				        model.addAttribute("item", item); // adminリストを設定
+				        return "item/detail";
+			   		} 
+			   		else {
+					   model.addAttribute("errorMessage", "指定された管理者が見つかりません。");}
+					return null;
+			    }
+			    
+			
+			    @PostMapping("/item/order/{id}")
+			    public String orderItemPage(@PathVariable Long id, Model model) {
+			        Optional<ItemEntity> itemEntity = itemServiceImpl.getItemEntityById(id);
+			        if (itemEntity.isPresent()) {
+			            ItemEntity item = itemEntity.get();
+			            model.addAttribute("item", item); // アイテムリストを設定
+			            return "item/order"; // アイテムの注文ページを返す
+			        } else {
+			            model.addAttribute("errorMessage", "指定されたアイテムが見つかりません。");
+			            return "item/error"; // エラーページを返す
+			        }
+			    }
+
+
+			    
+			   @PostMapping("/item/older/complete")
+			    public String orderItem(@RequestParam("id") Long id, @RequestParam("quantityOfStock") Long quantityOfStock, Principal principal) {
+				    
+			    	// ログイン中のユーザーからshopIDを取得
+			        AdminEntity admin = adminRepository.findByEmail(principal.getName());
+			        Long shopId = admin.getShopId();
+
+			        // shopItemテーブルに保存
+			        ShopItemEntity shopItem = shopItemRepository.findByShop_IdAndItem_Id(shopId, id);
+			        if (shopItem == null) {
+			            shopItem = new ShopItemEntity();
+			            shopItem.setShopId(shopId);
+			            shopItem.setItemId(id);
+			        }
+			    	shopItem.setQuantityOfStock(quantityOfStock); // 発注数を在庫数として設定
+			        shopItemRepository.save(shopItem);
+			        System.out.println("Received id: " + id + ", Quantity: " + quantityOfStock);
+			        return "redirect:/item/list"; 
+			    }
+		
+				  
 	 //
-	 
+
 	//ログアウト
 	@PostMapping("logout")
 	public String logout() {

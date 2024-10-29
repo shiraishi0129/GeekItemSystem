@@ -105,9 +105,4 @@ public class AdminServiceImpl implements AdminService {
     public void deleteAdmin(Long id) {
         adminRepository.deleteById(id);
     }
-
-	public String findAll() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
 }

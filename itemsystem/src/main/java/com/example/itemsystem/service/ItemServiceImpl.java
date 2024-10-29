@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -52,12 +51,6 @@ public class ItemServiceImpl implements ItemService {
 	        // 複数条件による商品検索（必要に応じて実装）
 	        return itemRepository.findByNameContaining(name);
 	    }
-
-		public Page<ItemEntity> searchItems(int page, String largeCategory, String UnderCategory, String smallCategory,
-				String search) {
-			// TODO 自動生成されたメソッド・スタブ
-			return null;
-		}
 
 		public List<ItemEntity> getAllItem() {
 			// TODO 自動生成されたメソッド・スタブ

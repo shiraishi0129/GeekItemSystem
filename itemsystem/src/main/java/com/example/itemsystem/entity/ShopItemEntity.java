@@ -31,9 +31,9 @@ public class ShopItemEntity {
     @JoinColumn(name = "item_id", referencedColumnName = "id")
     private ItemEntity item;
    
- /*  @Column(name = "sale_price", nullable = false)
+   @Column(name = "sale_price", nullable = false)
     private Long salePrice;
-*/
+
     @Column(name = "quantity_of_stock", nullable = false)
     private Long quantityOfStock;
     

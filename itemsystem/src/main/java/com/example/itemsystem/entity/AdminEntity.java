@@ -88,6 +88,11 @@ public class AdminEntity {
 			// TODO 自動生成されたメソッド・スタブ
 			return null;
 		}
+
+		public AdminEntity orElseThrow(Object object) {
+			// TODO 自動生成されたメソッド・スタブ
+			return null;
+		}
 	    
 
 }

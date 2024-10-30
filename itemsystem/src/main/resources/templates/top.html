@@ -8,33 +8,38 @@
 </head>
 <body>
     <div class="container">
-        <h1>TOPメニュー</h1>
+		<div>
+			<h1>TOPメニュー</h1>
+				<div class="profile-container">
+		           <form action="/adminprofile/detail" method="post" th:action="@{/adminprofile/detail}">
+		               <button class="profile-button">管理者プロフィール</button>
+		           </form>
+		   		</div>
+		</div>
         <div class="menu">
-			<form action="/item/list" method="post"th:action="@{/item/list}">
-				<button class="menu-button">商品一覧</button>
-			</form>
-			<form action="/shop/list" method="post"th:action="@{/shop/list}">
-				<button class="menu-button">店舗一覧</button>
-			</form>
-   			<form action="/admin/list" method="post"th:action="@{/admin/list}">
-				<button class="menu-button">管理者一覧</button>
-			</form>
-			<form action="/orderhistory/list" method="post"th:action="@{/orderhistory/list}">
-				<button class="menu-button">商品発注履歴一覧</button>
-			</form>            
-			<form action="/manufactures/list" method="post"th:action="@{/manufactures/list}">
-				<button class="menu-button">メーカー一覧</button>
-			</form>
-            <form action="/category/list" method="post"th:action="@{/category/list}">
-				<button class="menu-button">カテゴリ一覧</button>
-			</form>
-        </div>
-		<form action="/logout" method="post"th:action="@{/logout}">
-			<button class="logout-button">ログアウト</button>
-		</form>    
-        <div class="profile">
-            <button class="profile-button">管理者プロフィール</button>
-        </div>
+            <form action="/item/list" method="post" th:action="@{/item/list}">
+                <button class="menu-button">商品一覧</button>
+            </form>
+            <form action="/shop/list" method="post" th:action="@{/shop/list}">
+                <button class="menu-button">店舗一覧</button>
+            </form>
+            <form action="/admin/list" method="post" th:action="@{/admin/list}">
+                <button class="menu-button">管理者一覧</button>
+            </form>
+            <form action="/orderhistory/list" method="post" th:action="@{/orderhistory/list}">
+                <button class="menu-button">商品発注履歴一覧</button>
+            </form>            
+            <form action="/manufactures/list" method="post" th:action="@{/manufactures/list}">
+                <button class="menu-button">メーカー一覧</button>
+            </form>
+            <form action="/category/list" method="post" th:action="@{/category/list}">
+                <button class="menu-button">カテゴリ一覧</button>
+            </form>
+		</div>
+        <form action="/logout" method="post" th:action="@{/logout}">
+            <button class="logout-button">ログアウト</button>
+        </form>    
     </div>
 </body>
 </html>
+

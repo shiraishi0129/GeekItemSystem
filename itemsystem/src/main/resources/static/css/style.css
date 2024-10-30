@@ -200,3 +200,15 @@ button, select, input[type="text"] {
     padding: 8px 12px;
     font-size: 16px;
 }
+.logout-button {
+    width: auto; /* 幅を自動に設定 */
+    padding: 5px 10px; /* 小さくするためのパディング */
+    font-size: 0.8em; /* フォントサイズを小さく */
+    margin-left: 10px; /* プロフィールボタンとの間にスペース */
+}
+
+.profile-container {
+    display: flex;
+    justify-content: flex-end; /* 右寄せ */
+    margin-top: 10px; /* メニューとプロファイルボタンの間にスペース */
+}

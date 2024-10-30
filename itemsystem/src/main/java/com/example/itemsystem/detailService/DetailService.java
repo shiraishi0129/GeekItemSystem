@@ -28,11 +28,21 @@ public class DetailService implements UserDetailsService {
 				if (adminentity == null) {
 		            throw new UsernameNotFoundException("User not found with email: " + email);
 		        }
-	return User.builder()
-			.username(adminentity.getEmail())
-			.password(adminentity.getPassword())
-			.roles("ADMIN")
-			.build();
 
+				 Long permissionId = adminentity.getPermissionId();
+				    System.out.println("Loaded user: " + adminentity.getEmail() + ", Permission ID: " + permissionId);
+
+				    if (permissionId != null) {
+				        String role = permissionId.toString(); // 直接 permissionId を文字列に変換
+				        System.out.println("Assigned role: " + role);
+
+				        return User.builder()
+				                .username(adminentity.getEmail())
+				                .password(adminentity.getPassword())
+				                .roles(role) // ここでの role には "1" などの数字が入る
+				                .build();
+				    } else {
+				        throw new IllegalArgumentException("Permission ID is null");
+				    }
 	}
 }

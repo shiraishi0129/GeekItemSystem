@@ -22,33 +22,29 @@ public class SecurityConfig {
 		
 	}
 	
-	 @Bean
-	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	    		http
-			        .authorizeHttpRequests((authz) -> authz
-			        		 .requestMatchers("/admin/signup").permitAll()
-				                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-				                .requestMatchers("/top").hasRole("ADMIN")
-				                .anyRequest().authenticated()) 
-			        .formLogin(login -> login
-		                        .usernameParameter("email")
-		                        .passwordParameter("password")
-		                        .loginPage("/login") // ログインページのpath指定
-		                        .loginProcessingUrl("/login")
-		                        .defaultSuccessUrl("/top",true)
-		                        .permitAll())
-		                .logout((logout) -> logout
-		                        .logoutSuccessUrl("/login")
-		                        .logoutUrl("/logout")
-		                        .invalidateHttpSession(true)
-		                        .deleteCookies("JSESSIONID")
-		                        .permitAll());
-		                        
-			 return http.build();
-			 
-	    }
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	    http
+	        .authorizeHttpRequests((authz) -> authz
+        		.requestMatchers("*").hasAnyRole("1","2") // ロール1にアクセスを許可
+                .anyRequest().authenticated())
+	        .formLogin(login -> login
+	            .usernameParameter("email")
+	            .passwordParameter("password")
+	            .loginPage("/login")
+	            .loginProcessingUrl("/login")
+	            .defaultSuccessUrl("/top", true)
+	            .permitAll())
+	        .logout((logout) -> logout
+	            .logoutSuccessUrl("/login")
+	            .logoutUrl("/logout")
+	            .invalidateHttpSession(true)
+	            .deleteCookies("JSESSIONID")
+	            .permitAll());
 	    
-	
+	    return http.build();
+	}
+
 	 @Bean
 	   public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();	    

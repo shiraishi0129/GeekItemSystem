@@ -210,5 +210,4 @@ button, select, input[type="text"] {
 .profile-container {
     display: flex;
     justify-content: flex-end; /* 右寄せ */
-    margin-top: 10px; /* メニューとプロファイルボタンの間にスペース */
 }

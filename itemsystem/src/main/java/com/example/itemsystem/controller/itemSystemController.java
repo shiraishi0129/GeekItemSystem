@@ -92,10 +92,9 @@ public class itemSystemController {
 	private ShopService shopService;
 	@Autowired
 	private ShopServiceImpl shopServiceImpl;
-    
-    
 
-	
+    
+    
 
 
 	@GetMapping("/login")

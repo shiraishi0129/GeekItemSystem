@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -124,6 +125,7 @@ public class itemSystemController {
 		model.addAttribute("adminForm",new AdminForm());
 		return("admin/signup");
 	}
+	@PreAuthorize("hasRole('1')")
 	@PostMapping("/admin/signup")
 	public String adminsignuppost(){
 		return("redirect:signup");
@@ -157,6 +159,7 @@ public class itemSystemController {
 		
 	}
 	
+	@PreAuthorize("hasRole('1')")
 	 @GetMapping("/admin/edit/:id")
 	    public String adminedit(@RequestParam("id") Long id,Model model) {
 			Optional<AdminEntity> adminEntity = adminServiceImp.getAdminEntityById(id);
@@ -171,7 +174,7 @@ public class itemSystemController {
 			        return "error"; // エラーページを返す
 			   }
 	    }
-
+	@PreAuthorize("hasRole('1')")
     @PostMapping("/admin/edit/:id/update")
     public String adminupdate(@RequestParam("id") Long id, @Valid @ModelAttribute AdminForm adminForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
@@ -201,7 +204,8 @@ public class itemSystemController {
 			   model.addAttribute("errorMessage", "指定された管理者が見つかりません。");
 		        return "error"; // エラーページを返す
 		   }
-	 } 
+	 }
+	 @PreAuthorize("hasRole('1')")
 	 @PostMapping("/admin/delete/:id")
 	public String deleteAdmin(@RequestParam("id") Long id, Model model){
 		 adminServiceImp.deleteAdmin(id);
@@ -234,7 +238,7 @@ public class itemSystemController {
 		model.addAttribute("manufacturesForm",new ManufacturesForn());
 		return("manufactures/signup");
 	}
-	
+	@PreAuthorize("hasRole('ROLE1')")
 	@PostMapping("/manufactures/signup")
 	public String manufacturessignuppost(){
 		return("redirect:signup");
@@ -251,7 +255,7 @@ public class itemSystemController {
 		return("top");
 		
 	}
-	
+	@PreAuthorize("hasRole('1')")
 	 @GetMapping("/manufactures/edit/:id")
 	    public String manufacturesedit(@RequestParam("id") Long id,Model model) {
 			Optional<ManufacturesEntity> manufactuersEntity = manufacturesServiceImpl.getManufacturesEntityById(id);
@@ -266,7 +270,7 @@ public class itemSystemController {
 			        return "error"; // エラーページを返す
 			   }
 	    }
-	 
+	 @PreAuthorize("hasRole('1')")
 	 @PostMapping("/manufactures/edit/:id/update")
 	    public String manufacturesupdate(@RequestParam("id") Long id, @Valid @ModelAttribute ManufacturesForn manufacturesForm, BindingResult bindingResult, Model model) {
 	        if (bindingResult.hasErrors()) {

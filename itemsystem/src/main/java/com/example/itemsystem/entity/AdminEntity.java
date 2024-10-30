@@ -58,7 +58,6 @@ public class AdminEntity {
 	    public Long getRoleId() {
 	        return (role != null) ? role.getId() : null;
 	    }
-
 	    public Long getPermissionId() {
 	        return (permission != null) ? permission.getId() : null;
 	    }
@@ -93,6 +92,8 @@ public class AdminEntity {
 			// TODO 自動生成されたメソッド・スタブ
 			return null;
 		}
+
+	
 	    
 
 }

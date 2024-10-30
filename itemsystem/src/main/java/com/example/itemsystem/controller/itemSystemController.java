@@ -238,7 +238,7 @@ public class itemSystemController {
 		model.addAttribute("manufacturesForm",new ManufacturesForn());
 		return("manufactures/signup");
 	}
-	@PreAuthorize("hasRole('ROLE1')")
+	@PreAuthorize("hasRole('1')")
 	@PostMapping("/manufactures/signup")
 	public String manufacturessignuppost(){
 		return("redirect:signup");

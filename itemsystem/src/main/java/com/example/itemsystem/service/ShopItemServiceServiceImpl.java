@@ -28,4 +28,16 @@ public class ShopItemServiceServiceImpl implements ShopItemService {
         return shopItemRepository.findByShop_Id(shopId); // shopIdを基にShopItemを取得
     }
 
+	@Override
+	public ShopItemEntity findByShop_IdAndItem_Id(Long shopId, Long id) {
+		// TODO 自動生成されたメソッド・スタブ
+		return shopItemRepository.findByShop_IdAndItem_Id(shopId,id);
+	}
+
+	@Override
+	public void save(ShopItemEntity shopItem) {
+		// TODO 自動生成されたメソッド・スタブ
+	     shopItemRepository.save(shopItem);
+	}
+
 }

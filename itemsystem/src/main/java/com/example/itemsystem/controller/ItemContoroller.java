@@ -16,11 +16,9 @@ import com.example.itemsystem.entity.AdminEntity;
 import com.example.itemsystem.entity.ItemEntity;
 import com.example.itemsystem.entity.OrderHistoryEntity;
 import com.example.itemsystem.entity.ShopItemEntity;
-import com.example.itemsystem.repository.AdminRepository;
-import com.example.itemsystem.repository.OrderHistoryReopsitory;
-import com.example.itemsystem.repository.ShopItemRepository;
+import com.example.itemsystem.service.AdminService;
 import com.example.itemsystem.service.ItemService;
-import com.example.itemsystem.service.OlderHistoryService;
+import com.example.itemsystem.service.OrderHistoryService;
 import com.example.itemsystem.service.ShopItemService;
 
 @Controller
@@ -31,13 +29,10 @@ public class ItemContoroller {
     @Autowired
     private ShopItemService shopItemService;
     @Autowired
-    private OlderHistoryService olderHistoryServie;
+    private OrderHistoryService orderHistoryServie;
     @Autowired
-    private ShopItemRepository shopItemRepository;
-    @Autowired
-    private AdminRepository adminRepository;
-    @Autowired
-    private OrderHistoryReopsitory orderHistoryRepository;
+    private AdminService adminService;
+   
 
     // 商品一覧表示と検索機能
     @PostMapping("/item/list")
@@ -141,11 +136,11 @@ public class ItemContoroller {
     public String orderItem(@RequestParam("id") Long id, @RequestParam("quantityOfStock") Long quantityOfStock, Principal principal, Long salePrice) {
 
         // ログイン中のユーザーからshopIDを取得
-        AdminEntity admin = adminRepository.findByEmail(principal.getName());
+        AdminEntity admin = adminService.findByEmail(principal.getName());
         Long shopId = admin.getShopId();
 
         // shopItemテーブルからshopIdとitemIdに一致するデータを検索
-        ShopItemEntity shopItem = shopItemRepository.findByShop_IdAndItem_Id(shopId, id);
+        ShopItemEntity shopItem = shopItemService.findByShop_IdAndItem_Id(shopId, id);
         if (shopItem == null) {
             shopItem = new ShopItemEntity();
             shopItem.setShopId(shopId);
@@ -159,7 +154,7 @@ public class ItemContoroller {
         }
 
         // shopItemテーブルに保存
-        shopItemRepository.save(shopItem);
+        shopItemService.save(shopItem);
 
         // 発注履歴の作成と保存
         OrderHistoryEntity orderHistory = new OrderHistoryEntity();
@@ -168,7 +163,7 @@ public class ItemContoroller {
         orderHistory.setItem(shopItem.getItem());
         orderHistory.setNumberOfOrders(quantityOfStock);
         orderHistory.setTotalAmount(calculateTotalAmount(quantityOfStock, salePrice));
-        orderHistoryRepository.save(orderHistory);
+        orderHistoryServie.save(orderHistory);
 
         System.out.println("Received id: " + id + ", Quantity: " + quantityOfStock);
         return "redirect:/item/list";
@@ -187,7 +182,7 @@ public class ItemContoroller {
     @GetMapping("/orderhistory/list")
     public String orderhistorylistget(Model model) {
         // manufacturesエンティティのデータを取得する為に、サービスクラスから取得
-        List<OrderHistoryEntity> orderhistoryList = olderHistoryServie.getAllItem();
+        List<OrderHistoryEntity> orderhistoryList = orderHistoryServie.getAllItem();
         System.out.println("Manufactures List Size: " + orderhistoryList.size());
         model.addAttribute("orderhistoryList", orderhistoryList);
         return "orderhistory/list";

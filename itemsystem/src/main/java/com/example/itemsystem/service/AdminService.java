@@ -20,4 +20,6 @@ public interface AdminService {
 	void updateAdmin(@Valid AdminForm adminForm);
 
 	void deleteAdmin(Long id);
+
+	AdminEntity findByEmail(String name);
 }

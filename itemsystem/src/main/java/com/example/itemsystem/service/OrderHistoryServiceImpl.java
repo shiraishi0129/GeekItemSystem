@@ -12,13 +12,19 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class OrderHistoryServiceImpl implements OlderHistoryService {
+public class OrderHistoryServiceImpl implements OrderHistoryService {
 	@Autowired
 	private OrderHistoryReopsitory orderHistoryRepository;
 
 	public List<OrderHistoryEntity> getAllItem() {
 		// TODO 自動生成されたメソッド・スタブ
 		return orderHistoryRepository.findAll();
+	}
+
+	@Override
+	public void save(OrderHistoryEntity orderHistory) {
+		// TODO 自動生成されたメソッド・スタブ
+		 orderHistoryRepository.save(orderHistory);
 	}
 
 }

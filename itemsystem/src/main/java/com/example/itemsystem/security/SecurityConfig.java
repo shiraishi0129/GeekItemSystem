@@ -18,14 +18,16 @@ public class SecurityConfig {
 	
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
-		return web -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-		
+		return web -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+		 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+         .requestMatchers("/api/**"); // /api以下のパスは認証なしでアクセス可能
 	}
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	    http
 	        .authorizeHttpRequests((authz) -> authz
+	        	.requestMatchers("/api/**").permitAll() 
         		.requestMatchers("*").hasAnyRole("1","2") // ロール1にアクセスを許可
                 .anyRequest().authenticated())
 	        .formLogin(login -> login
@@ -47,7 +49,7 @@ public class SecurityConfig {
 
 	 @Bean
 	   public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();	    
+		 return new BCryptPasswordEncoder();	    
      }
 	 
 }

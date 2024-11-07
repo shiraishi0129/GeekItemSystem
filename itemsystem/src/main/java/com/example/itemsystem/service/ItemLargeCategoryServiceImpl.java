@@ -30,11 +30,11 @@ public class ItemLargeCategoryServiceImpl implements ItemLargeCategoryService {
 	
 	 public List<ItemLargeCategoryEntity> getAllItemLargeCategory() {
 	        // adminRepositoryのfindAll()メソッドを使ってadminテーブルの全データを取得
-	        return itemLargeCategoryRepository.findAll();
+		 return itemLargeCategoryRepository.findAll();
 	    }
 	 public Optional<ItemLargeCategoryEntity> getItemLargeCategoryEntityById(Long id) {
 	    	
-		   return itemLargeCategoryRepository.findById(id);
+		 return itemLargeCategoryRepository.findById(id);
 	 }
 
 }

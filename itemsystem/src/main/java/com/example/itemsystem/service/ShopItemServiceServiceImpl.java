@@ -1,5 +1,8 @@
 package com.example.itemsystem.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +19,13 @@ public class ShopItemServiceServiceImpl implements ShopItemService {
 	@Autowired
 	private ShopItemRepository shopItemRepository;
 
-	public ShopItemEntity findByShopId(Long id) {
+	public Optional<ShopItemEntity> findById(Long id) {
 		// TODO 自動生成されたメソッド・スタブ
-		return  shopItemRepository.findById(id).orElse(null);
+		return shopItemRepository.findById(id);
 	}
+
+	 public List<ShopItemEntity> getShopItemsByShopId(Long shopId) {
+        return shopItemRepository.findByShop_Id(shopId); // shopIdを基にShopItemを取得
+    }
 
 }

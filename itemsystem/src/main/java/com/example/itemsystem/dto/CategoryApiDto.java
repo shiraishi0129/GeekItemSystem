@@ -1,22 +1,16 @@
-package com.example.itemsystem.entity;
+package com.example.itemsystem.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import lombok.Data;
 
-@Entity
-public class CategoryApiEntity {
-		@Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Long id;
-
-	    private String largeCategoryName;
-	    private String underCategoryName;
-	    private String smallCategoryName;
-	    private String itemName;
-	    private String description;
-	    private double purchasePrice;
-	    private double retailPrice;
-
+@Data
+public class CategoryApiDto {
+		
+	private Long id;
+	private String largeCategoryName;
+	private String underCategoryName;
+	private String smallCategoryName;
+	private String itemName;
+	private String description;
+	private Long purchasePrice;
+	private Long retailPrice;
 }

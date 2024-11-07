@@ -1,19 +1,25 @@
-package com.example.itemsystem.entity;
+package com.example.itemsystem.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.util.List;
 
-@Entity
-public class ItemApiEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+import lombok.Data;
 
-    private String shopName;
-    private String address;
-    private String item;
-    private double price;
-    private int stock;
+@Data
+public class ItemApiDto {
+	
+	private Long id;
+	private String shopName;
+	private String address;
+	private String item;
+	private double price;
+	private double stock;
+	private List<OrderHistoryApiDto> orderHistories;
+	
+	public List<OrderHistoryApiDto> getOrderHistories() {
+	    return orderHistories;
+	}
+	
+	public void setOrderHistories(List<OrderHistoryApiDto> orderHistories) {
+	    this.orderHistories = orderHistories;
+	}
 }

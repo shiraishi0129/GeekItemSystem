@@ -38,10 +38,9 @@ public class ShopServiceImpl implements ShopService {
 		
 	}
 
-	   public Optional<ShopEntity> getShopEntityById(Long id) {
-	    	
-		   return shopRepository.findById(id);
-	   }
+	public Optional<ShopEntity> getShopEntityById(Long id) {
+		return shopRepository.findById(id);
+	}
 
 	public void updateAdmin(@Valid ShopForm shopForm) {
 		// TODO 自動生成されたメソッド・スタブ

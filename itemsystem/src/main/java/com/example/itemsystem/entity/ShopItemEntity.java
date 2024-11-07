@@ -18,45 +18,45 @@ import lombok.Data;
 @Data
 @Table(name = "shop_item")
 public class ShopItemEntity {
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
    
-    @ManyToOne
-    @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    private ShopEntity shop;
-    
-    @ManyToOne
-    @JoinColumn(name = "item_id", referencedColumnName = "id")
-    private ItemEntity item;
+	@ManyToOne
+	@JoinColumn(name = "shop_id", referencedColumnName = "id")
+	private ShopEntity shop;
+	
+	@ManyToOne
+	@JoinColumn(name = "item_id", referencedColumnName = "id")
+	private ItemEntity item;
    
-   @Column(name = "sale_price", nullable = false)
-    private Long salePrice;
+	@Column(name = "sale_price", nullable = false)
+	private Long salePrice;
 
-    @Column(name = "quantity_of_stock", nullable = false)
-    private Long quantityOfStock;
+	@Column(name = "quantity_of_stock", nullable = false)
+	private Long quantityOfStock;
     
-    @Column(name = "created_at", nullable =false ,updatable = false)
-    private LocalDateTime created_at;
+	@Column(name = "created_at", nullable =false ,updatable = false)
+	private LocalDateTime created_at;
     
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updated_at;
+	@Column(name = "updated_at", nullable = false)
+	private LocalDateTime updated_at;
     
-    @PrePersist
-    protected void onCreate() {
-        if (this.created_at == null) {
-            this.created_at = LocalDateTime.now();
+	@PrePersist
+	protected void onCreate() {
+		if (this.created_at == null) {
+			this.created_at = LocalDateTime.now();
         }
-        if (this.updated_at == null) {
-            this.updated_at = LocalDateTime.now();
-        }
-    }
+		if (this.updated_at == null) {
+			this.updated_at = LocalDateTime.now();
+		}
+	}
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updated_at = LocalDateTime.now();
-    }
+	@PreUpdate
+	protected void onUpdate() {
+		this.updated_at = LocalDateTime.now();
+	}
 
 	public void setItemId(Long id) {
 		// TODO 自動生成されたメソッド・スタブ
@@ -75,4 +75,8 @@ public class ShopItemEntity {
 	    this.quantityOfStock = quantityOfStock; // 引数の値をフィールドに設定
 	}
 
+	public void setSalePrice(Long salePrice) {
+		// TODO 自動生成されたメソッド・スタブ
+		this.salePrice = salePrice;
+	}
 }

@@ -38,7 +38,7 @@
                     </tr>
                 </tbody>
             </table>
-			<form method="post" th:action="@{/admin/delete}" >
+			<form method="post" th:action="@{/admin/delete/:id(id=${admin.id})}" >
 			    <input type="hidden" name="id" th:value="${admin.id}" />
 			    <div class="buttons">
 			        <button type="submit">削除</button>

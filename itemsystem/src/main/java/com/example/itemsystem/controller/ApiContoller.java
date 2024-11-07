@@ -7,33 +7,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.itemsystem.entity.CategoryApiEntity;
-import com.example.itemsystem.entity.ItemApiEntity;
-import com.example.itemsystem.service.CategoryApiServiceImpl;
-import com.example.itemsystem.service.ItemApiServiceImpl;
+import com.example.itemsystem.dto.CategoryApiDto;
+import com.example.itemsystem.dto.ItemApiDto;
+import com.example.itemsystem.service.ApiService;
 
 @RestController
 @RequestMapping("/api")
 public class ApiContoller {
 	@Autowired
-    private CategoryApiServiceImpl categoryApiServiceImpl;
-    @Autowired
-    private ItemApiServiceImpl itemApiServiceImpl;
-
-    
-    
+    private ApiService apiService;
 
 //api
-    @GetMapping("/catgory")
-    public List<CategoryApiEntity> getCategories() {
-        return categoryApiServiceImpl.getAllCategories();
+	
+    @GetMapping("/category")
+    public List<CategoryApiDto> getCategories() {
+        return apiService.getCategories();
     }
 
     @GetMapping("/item")
-    public List<ItemApiEntity> getItems() {
-        return itemApiServiceImpl.getAllItems();
+    public List<ItemApiDto> getItems() {
+        return apiService.getItems();
     }
-//
-    
-
 }

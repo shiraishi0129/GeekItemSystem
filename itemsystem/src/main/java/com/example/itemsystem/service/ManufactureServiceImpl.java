@@ -15,7 +15,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class ManufactureServiceImpl implements ManufacturesService {
+public class ManufactureServiceImpl implements ManufactureService {
 	@Autowired
 	private ManufactresRepository manufacturesRepository;
 	
@@ -30,27 +30,27 @@ public class ManufactureServiceImpl implements ManufacturesService {
 	}
 	
 	 public List<ManufacturesEntity> getAllManufactures() {
-	        return manufacturesRepository.findAll();
+		 return manufacturesRepository.findAll();
    }
 	 
 	 public String findAll() {
 			// TODO 自動生成されたメソッド・スタブ
-			return null;
+		return null;
 	}
 		
 	public ManufacturesEntity findById(Long id) {
-		        return manufacturesRepository.findById(id).orElse(null); // IDが存在しない場合はnullを返す
+		return manufacturesRepository.findById(id).orElse(null); // IDが存在しない場合はnullを返す
 	}
 		    
     public Optional<ManufacturesEntity> getManufacturesEntityById(Long id) {
-	   		   return manufacturesRepository.findById(id);
+    	return manufacturesRepository.findById(id);
    }
     public void updateManufactures(ManufacturesForn manufacturesForm) {
-		    ManufacturesEntity manufacturesEntity = new ManufacturesEntity();
-		    	
-		    manufacturesEntity.setId(manufacturesForm.getId());
-		    manufacturesEntity.setName(manufacturesForm.getName());  // permissionを設定
-		    
-		    manufacturesRepository.save(manufacturesEntity);
+	    ManufacturesEntity manufacturesEntity = new ManufacturesEntity();
+	    	
+	    manufacturesEntity.setId(manufacturesForm.getId());
+	    manufacturesEntity.setName(manufacturesForm.getName());  // permissionを設定
+	    
+	    manufacturesRepository.save(manufacturesEntity);
 	}
 }

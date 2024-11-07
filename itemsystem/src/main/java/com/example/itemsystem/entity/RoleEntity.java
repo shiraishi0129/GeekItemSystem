@@ -12,7 +12,6 @@ import lombok.Data;
 @Data
 @Table(name = "role_master")
 public class RoleEntity {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")

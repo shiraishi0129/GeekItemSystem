@@ -62,17 +62,16 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
     public List<AdminEntity> getAllAdmins() {
-        // adminRepositoryのfindAll()メソッドを使ってadminテーブルの全データを取得
-        return adminRepository.findAll();
+    	return adminRepository.findAll();
     }
     
     public AdminEntity findById(Long id) {
-        return adminRepository.findById(id).orElse(null); // IDが存在しない場合はnullを返す
+    	return adminRepository.findById(id).orElse(null); 
     }
     
     public Optional<AdminEntity> getAdminEntityById(Long id) {
     	
-		   return adminRepository.findById(id);
+    	return adminRepository.findById(id);
 	   }
     
     public void updateAdmin(AdminForm adminForm) {
@@ -103,10 +102,10 @@ public class AdminServiceImpl implements AdminService {
     
     @Transactional
     public void deleteAdmin(Long id) {
-        adminRepository.deleteById(id);
+    	adminRepository.deleteById(id);
     }
     
     public AdminEntity getLoggedInAdmin(String email) {
-        return adminRepository.findByEmail(email);
+    	return adminRepository.findByEmail(email);
     }
 }

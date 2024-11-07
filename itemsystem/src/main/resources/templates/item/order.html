@@ -28,24 +28,29 @@
         </table>
         <form action="/item/order/complete" method="post" th:action="@{/item/older/complete}">
             <input type="hidden" name="id" th:value="${item.id}">
-            <label for="quantity">数量:</label>
-            <select name="quantityOfStock" id="quantity">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-				<option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-				<option value="7">7</option>
-				<option value="8">8</option>
-	        	<option value="9">9</option>
-	           	<option value="10">10</option>
-                <!-- 必要な数量を追加 -->
-            </select>
+			
+			<div class="center-container">
+			    <div class="flex-container">
+			        <label for="quantity">数量:</label>
+			        <select name="quantityOfStock" id="quantity">
+			            <option value="1">1</option>
+			            <option value="2">2</option>
+			            <option value="3">3</option>
+			            <option value="4">4</option>
+			            <option value="5">5</option>
+			            <option value="6">6</option>
+			            <option value="7">7</option>
+			            <option value="8">8</option>
+			            <option value="9">9</option>
+			            <option value="10">10</option>
+			        </select>
+			    </div>
+			</div>
+			<input type="text" name="salePrice" th:value="${shopitem.salePrice != null ? shopitem.salePrice : 0}">
             <button type="submit">発注</button>
         </form>
         <form action="/item/list" method="post" th:action="@{/item/list}">
-            <button type="submit">管理者一覧画面へ戻る</button>
+            <button type="submit">商品一覧画面へ戻る</button>
         </form>
     </div>
 </body>

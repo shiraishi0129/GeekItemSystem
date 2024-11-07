@@ -11,9 +11,6 @@
 <body>
     <div class="container">
         <h1>管理者プロフィール編集</h1>
-		<form action="/top" method="post"	th:action="@{/top}">
-							<button class="back-button">TOPメニューへ戻る</button>
-			</form>
 		<form th:action="@{/adminprofile/edit/{id}/update(id=${adminForm.id})}" th:object="${adminForm}" method="post">
 
             <table>
@@ -61,7 +58,9 @@
                 <button type="submit">編集完了</button>
             </div>
         </form>
-	
+		<form action="/top" method="post"	th:action="@{/top}">
+			<button class="back-button">TOPメニューへ戻る</button>
+		</form>
     </div>
 </body>
 </html>

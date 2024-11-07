@@ -108,4 +108,10 @@ public class AdminServiceImpl implements AdminService {
     public AdminEntity getLoggedInAdmin(String email) {
     	return adminRepository.findByEmail(email);
     }
+
+	@Override
+	public AdminEntity findByEmail(String name) {
+		// TODO 自動生成されたメソッド・スタブ
+		return adminRepository.findByEmail(name);
+	}
 }

@@ -11,4 +11,8 @@ public interface ShopItemService {
 
 	List<ShopItemEntity> getShopItemsByShopId(Long id);
 
+	ShopItemEntity findByShop_IdAndItem_Id(Long shopId, Long id);
+
+	void save(ShopItemEntity shopItem);
+
 }

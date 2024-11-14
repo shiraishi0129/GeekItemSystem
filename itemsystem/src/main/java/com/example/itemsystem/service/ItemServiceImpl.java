@@ -36,9 +36,9 @@ public class ItemServiceImpl implements ItemService {
 	    return (int) Math.ceil((double) totalItems / 10);
 	}
 	
-	public List<ItemEntity> searchItems(String name, String largeCategoryId, String underCategoryId, String smallCategoryId) {
+	public List<ItemEntity> searchItems(String name, Long largeCategoryId, Long underCategoryId, Long smallCategoryId) {
 	    // 複数条件による商品検索（必要に応じて実装）
-	    return itemRepository.findByNameContaining(name);
+	    return itemRepository.findByNameContaining(name,largeCategoryId, underCategoryId, smallCategoryId);
 	}
 	
 	public List<ItemEntity> getAllItem() {
@@ -49,5 +49,5 @@ public class ItemServiceImpl implements ItemService {
 	public Optional<ItemEntity> getItemEntityById(Long id) {
 		
 		return itemRepository.findById(id);
-	}
+	}	
 }

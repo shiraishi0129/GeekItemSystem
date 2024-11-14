@@ -46,8 +46,6 @@
 			        </select>
 			    </div>
 			</div>
-			<input type="text" name="salePrice" th:value="${shopitem.salePrice != null ? shopitem.salePrice : 0}">
-            <button type="submit">発注</button>
         </form>
         <form action="/item/list" method="post" th:action="@{/item/list}">
             <button type="submit">商品一覧画面へ戻る</button>

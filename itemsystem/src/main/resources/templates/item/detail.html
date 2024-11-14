@@ -17,7 +17,7 @@
                     <th>商品画像</th>
                     <th>商品説明</th>
                     <th>仕入原価</th>
-                    <th>メーカー機能販売価格</th>
+                    <th>メーカー希望販売価格</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +25,9 @@
                 <tr>
                     <td th:text="${item.id}"></td>
                     <td th:text="${item.name}"></td>
-                    <td th:text="${item.image}"></td>
+          			<td>
+						<img th:src="${item.image}" alt="商品画像" width="100"/>
+					</td>
                     <td th:text="${item.productDescription}"></td>
                     <td th:text="${item.purchasePrice}"></td>
                     <td th:text="${item.retailPrice}"></td>
@@ -40,6 +42,21 @@
             </ul>
         </div>
 
+		<table>
+		    <thead>
+		        <tr>
+		            <th>販売価格</th>
+		            <th>在庫数</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		        <!-- 現在のデータを表示 -->
+		        <tr th:each="shopItem : ${shopItem}">
+		            <td th:text="${shopItem.salePrice}"></td>
+		            <td th:text="${shopItem.quantityOfStock}"></td>
+		        </tr>
+		    </tbody>
+		</table>
         <!-- 常に表示される発注ボタン -->
 		<form action="#" method="post" th:action="@{/item/order/{id}(id=${item.id})}">
 		    <button type="submit">発注画面へ</button>

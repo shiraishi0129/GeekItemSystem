@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.itemsystem.entity.ItemLargeCategoryEntity;
+import com.example.itemsystem.entity.ItemUnderCategoryEntity;
 import com.example.itemsystem.form.ItemLargelCategoryForm;
 import com.example.itemsystem.repository.ItemLargeCategoryRepository;
+import com.example.itemsystem.repository.ItemUnderCategoryRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -18,6 +20,8 @@ public class ItemLargeCategoryServiceImpl implements ItemLargeCategoryService {
 	
 	@Autowired
 	private ItemLargeCategoryRepository itemLargeCategoryRepository;
+	@Autowired
+	private ItemUnderCategoryRepository itemUnderCategoryRepository;
 
 	@Override
 	public void saveItemLargeCategory(ItemLargelCategoryForm itemLargeCategoryForm) {
@@ -36,5 +40,8 @@ public class ItemLargeCategoryServiceImpl implements ItemLargeCategoryService {
 	    	
 		 return itemLargeCategoryRepository.findById(id);
 	 }
-
+	 
+	 public List<ItemUnderCategoryEntity> getUnderCategoriesByLargeId(Long id) {
+	        return itemUnderCategoryRepository.findByitemLargeCategory_Id(id);
+	    }
 }

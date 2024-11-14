@@ -7,7 +7,7 @@ import com.example.itemsystem.entity.ItemEntity;
 
 public interface ItemService {
 
-	List<ItemEntity> searchItems(String largeCategory, String UnderCategory, String smallCategory,String search);
+	List<ItemEntity> searchItems(String name,Long largeCategoryId, Long underCategoryId, Long smallCategoryId);
 
 	List<ItemEntity> getAllItem();
 

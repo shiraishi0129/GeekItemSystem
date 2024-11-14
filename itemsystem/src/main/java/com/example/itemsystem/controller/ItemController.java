@@ -22,7 +22,7 @@ import com.example.itemsystem.service.OrderHistoryService;
 import com.example.itemsystem.service.ShopItemService;
 
 @Controller
-public class ItemContoroller {
+public class ItemController {
 
     @Autowired
     private ItemService itemService;
@@ -74,10 +74,10 @@ public class ItemContoroller {
 
     @GetMapping("/search")
     public String searchItems(
-            @RequestParam String name,
-            @RequestParam(required = false) String largeCategoryId,
-            @RequestParam(required = false) String underCategoryId,
-            @RequestParam(required = false) String smallCategoryId,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Long largeCategoryId,
+            @RequestParam(required = false) Long underCategoryId,
+            @RequestParam(required = false) Long smallCategoryId,
             Model model) {
 
         // 商品を検索
@@ -95,14 +95,18 @@ public class ItemContoroller {
 
     // 商品詳細ページにリダイレクトする
     @GetMapping("/item/detail/:id")
-    public String itemDetail(@RequestParam Long id, Model model) {
+    public String itemDetail(@RequestParam Long id, Model model,Principal principal) {
         Optional<ItemEntity> itemEntity = itemService.getItemEntityById(id);
         if (itemEntity.isPresent()) {
             ItemEntity item = itemEntity.get();
-            model.addAttribute("item", item); // adminリストを設定
+            AdminEntity admin = adminService.findByEmail(principal.getName());
+            Long shopId = admin.getShopId();
+            ShopItemEntity shopItem = shopItemService.findByShop_IdAndItem_Id(shopId, id);
+            model.addAttribute("item", item); 
+            model.addAttribute("shopItem",shopItem);
             return "item/detail";
         } else {
-            model.addAttribute("errorMessage", "指定された管理者が見つかりません。");
+            model.addAttribute("errorMessage", "指定されたアイテムが見つかりません。");
         }
         return null;
     }
@@ -133,7 +137,7 @@ public class ItemContoroller {
     }
 
     @PostMapping("/item/older/complete")
-    public String orderItem(@RequestParam("id") Long id, @RequestParam("quantityOfStock") Long quantityOfStock, Principal principal, Long salePrice) {
+    public String orderItem(@RequestParam("id") Long id, @RequestParam("quantityOfStock") Long quantityOfStock, Principal principal) {
 
         // ログイン中のユーザーからshopIDを取得
         AdminEntity admin = adminService.findByEmail(principal.getName());
@@ -146,11 +150,9 @@ public class ItemContoroller {
             shopItem.setShopId(shopId);
             shopItem.setItemId(id);
             shopItem.setQuantityOfStock(quantityOfStock); // 初回の場合、そのまま設定
-            shopItem.setSalePrice(salePrice);
         } else {
             // 既存データがある場合、現在の在庫数に発注数を追加
             shopItem.setQuantityOfStock(shopItem.getQuantityOfStock() + quantityOfStock);
-            shopItem.setSalePrice(salePrice);
         }
 
         // shopItemテーブルに保存
@@ -162,7 +164,7 @@ public class ItemContoroller {
         orderHistory.setShop(shopItem.getShop());
         orderHistory.setItem(shopItem.getItem());
         orderHistory.setNumberOfOrders(quantityOfStock);
-        orderHistory.setTotalAmount(calculateTotalAmount(quantityOfStock, salePrice));
+        orderHistory.setTotalAmount(calculateTotalAmount(quantityOfStock, shopItem.getItem().getPurchasePrice()));
         orderHistoryServie.save(orderHistory);
 
         System.out.println("Received id: " + id + ", Quantity: " + quantityOfStock);
@@ -170,8 +172,8 @@ public class ItemContoroller {
     }
 
     // 合計金額の計算メソッド（必要に応じて金額を取得して計算）
-    private Long calculateTotalAmount(Long quantity, Long salePrice) {
-        return salePrice * quantity;
+    private Long calculateTotalAmount(Long quantity, Long purchasePrice) {
+        return purchasePrice * quantity;
     }
 
     @PostMapping("/orderhistory/list")

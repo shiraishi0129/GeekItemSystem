@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.itemsystem.entity.ItemLargeCategoryEntity;
 import com.example.itemsystem.entity.ManufacturesEntity;
 import com.example.itemsystem.form.ManufacturesForn;
-import com.example.itemsystem.service.ItemLargeCategoryService;
 import com.example.itemsystem.service.ManufactureService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,8 +25,6 @@ public class ManufacturesController {
 
     @Autowired
     private ManufactureService manufacturesService;
-    @Autowired
-    private ItemLargeCategoryService itemLargeCategoryService;
 
     // メーカ情報の処理
     // メーカ一覧画面へポスト処理
@@ -105,36 +101,6 @@ public class ManufacturesController {
         model.addAttribute("manufacturesentity", manufacturesForm);
         return "redirect:/manufactures/list"; // 更新後に一覧画面にリダイレクト
     }
-
-    @PostMapping("/category/list")
-    public String categorylistpost() {
-        return "redirect:list";
-    }
-
-    // 管理者一覧画面でのゲット処理
-    @GetMapping("/category/list")
-    public String categorylistget(Model model) {
-        // ItemLargeCategoryエンティティのデータを取得する為に、サービスクラスから取得
-        List<ItemLargeCategoryEntity> itemLargeCategoryList = itemLargeCategoryService.getAllItemLargeCategory();
-        System.out.println("Manufactures List Size: " + itemLargeCategoryList.size());
-        model.addAttribute("itemLargeCategoryList", itemLargeCategoryList);
-        return "/category/list";
-    }
-
-    @GetMapping("/category/detail/:id")
-    public String showCategoryDetails(@RequestParam("id") Long id, Model model) {
-        Optional<ItemLargeCategoryEntity> itemLargeCategoryEntity = itemLargeCategoryService.getItemLargeCategoryEntityById(id);
-        if (itemLargeCategoryEntity.isPresent()) {
-            ItemLargeCategoryEntity itemLargeCategory = itemLargeCategoryEntity.get();
-            model.addAttribute("itemLargeCategoryForm", itemLargeCategory); // `contact`オブジェクトを渡す
-            model.addAttribute("itemLargeCategory", List.of(itemLargeCategory)); // adminリストを設定
-            return "category/detail";
-        } else {
-            model.addAttribute("errorMessage", "指定された管理者が見つかりません。");
-            return "error"; // エラーページを返す
-        }
-    }
-
 }
 
 

@@ -2,6 +2,8 @@ package com.example.itemsystem.entity;
 
 import java.time.LocalDateTime;
 
+import com.example.itemsystem.dto.CategoryApiDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -87,5 +89,10 @@ public class OrderHistoryEntity {
 	public Long getId(Long id) {
 		// TODO 自動生成されたメソッド・スタブ
 		return id;
+	}
+
+	public CategoryApiDto getorderHistory() {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
 	}	
 }

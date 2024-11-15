@@ -8,11 +8,9 @@ import lombok.Data;
 public class ItemApiDto {
 	
 	private Long id;
-	private String shopName;
+	private String shopname;
 	private String address;
-	private String item;
-	private double price;
-	private double stock;
+	private ItemDetailDto item;
 	private List<OrderHistoryApiDto> orderHistories;
 	
 	public List<OrderHistoryApiDto> getOrderHistories() {

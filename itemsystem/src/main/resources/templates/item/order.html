@@ -21,31 +21,31 @@
                 <!-- 現在のデータを表示 -->
                 <tr>
                     <td th:text="${item.id}"></td>
-                    <td th:text="${item.name}"></td>
-                    <td th:text="${item.image}"></td>
+					<td th:text="${item.name}"></td>
+                    <td>
+						<img th:src="${item.image}" alt="商品画像" width="100"/>
+					</td>
                 </tr>
             </tbody>
         </table>
         <form action="/item/order/complete" method="post" th:action="@{/item/older/complete}">
             <input type="hidden" name="id" th:value="${item.id}">
-			
-			<div class="center-container">
-			    <div class="flex-container">
-			        <label for="quantity">数量:</label>
-			        <select name="quantityOfStock" id="quantity">
-			            <option value="1">1</option>
-			            <option value="2">2</option>
-			            <option value="3">3</option>
-			            <option value="4">4</option>
-			            <option value="5">5</option>
-			            <option value="6">6</option>
-			            <option value="7">7</option>
-			            <option value="8">8</option>
-			            <option value="9">9</option>
-			            <option value="10">10</option>
-			        </select>
-			    </div>
-			</div>
+			     <div class="form-group">
+					<label for="quantity">数量:</label>
+				        <select name="quantityOfStock" id="quantity">
+				            <option value="1">1</option>
+				            <option value="2">2</option>
+				            <option value="3">3</option>
+				            <option value="4">4</option>
+				            <option value="5">5</option>
+				            <option value="6">6</option>
+				            <option value="7">7</option>
+				            <option value="8">8</option>
+				            <option value="9">9</option>
+				            <option value="10">10</option>
+				        </select>
+				 </div>
+			<button type="submit">発注</button>
         </form>
         <form action="/item/list" method="post" th:action="@{/item/list}">
             <button type="submit">商品一覧画面へ戻る</button>

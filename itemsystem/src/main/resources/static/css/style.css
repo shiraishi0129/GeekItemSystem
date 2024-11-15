@@ -211,3 +211,10 @@ button, select, input[type="text"] {
     display: flex;
     justify-content: flex-end; /* 右寄せ */
 }
+
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* ラベルとセレクトボックスの間隔 */
+}

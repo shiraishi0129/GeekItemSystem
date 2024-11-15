@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.itemsystem.dto.CategoryApiDto;
 import com.example.itemsystem.dto.ItemApiDto;
+import com.example.itemsystem.dto.ItemDetailDto;
 import com.example.itemsystem.dto.OrderHistoryApiDto;
 import com.example.itemsystem.entity.ItemEntity;
 import com.example.itemsystem.entity.OrderHistoryEntity;
@@ -70,34 +71,43 @@ public class ApiServiceImpl implements ApiService {
 	        return dto;
 	    }
 	 
-    private ItemApiDto convertToItemDto(ShopItemEntity shopItem) {
-    	 ItemApiDto dto = new ItemApiDto();
-    	 dto.setId(shopItem.getId());
-         dto.setShopName(shopItem.getShop().getName());
-         dto.setAddress(shopItem.getShop().getAddres());
-         dto.setItem(shopItem.getItem().getName());
-         dto.setPrice(shopItem.getSalePrice());
-         dto.setStock(shopItem.getQuantityOfStock());
-         
-      
+	 private ItemApiDto convertToItemDto(ShopItemEntity shopItem) {
+		    ItemApiDto dto = new ItemApiDto();
 
-         // 注文履歴を取得してセット
-         List<OrderHistoryApiDto> orderHistoryDtos = orderHistoryRepository.findByShopIdAndItemId(shopItem.getShop().getId(),shopItem.getItem().getId()).stream()
-                 .map(this::convertToOrderHistoryDto)
-                 .collect(Collectors.toList());
-         dto.setOrderHistories(orderHistoryDtos);
+		    // 店舗情報を設定
+		    dto.setId(shopItem.getShop().getId());
+		    dto.setShopname(shopItem.getShop().getName());
+		    dto.setAddress(shopItem.getShop().getAddres());
 
-        return dto;
-    }
-    
-    private OrderHistoryApiDto convertToOrderHistoryDto(OrderHistoryEntity orderHistory) {
-        OrderHistoryApiDto dto = new OrderHistoryApiDto();
-        dto.setId(orderHistory.getId());
-        dto.setProductNname(orderHistory.getItem().getName());
-        dto.setManagerName(orderHistory.getAdmin().getLastName());
-        dto.setOrderQuantity(orderHistory.getNumberOfOrders());
-        dto.setTotalAmount(orderHistory.getTotalAmount());
-        return dto;
-    }
+		    // 商品情報をネストして設定
+		    ItemDetailDto itemDetail = new ItemDetailDto();
+		    itemDetail.setItem(shopItem.getItem().getName());
+		    itemDetail.setPrice(shopItem.getSalePrice());
+		    itemDetail.setStock(shopItem.getQuantityOfStock());
+		    dto.setItem(itemDetail);
+
+		    // 商品発注履歴を取得してセット
+		    List<OrderHistoryApiDto> orderHistoryDtos = orderHistoryRepository.findByShopIdAndItemId(
+		        shopItem.getShop().getId(), shopItem.getItem().getId()
+		    ).stream()
+		     .map(this::convertToOrderHistoryDto)
+		     .collect(Collectors.toList());
+		    dto.setOrderHistories(orderHistoryDtos);
+
+		    return dto;
+		}
+
+	 private OrderHistoryApiDto convertToOrderHistoryDto(OrderHistoryEntity orderHistory) {
+		    OrderHistoryApiDto dto = new OrderHistoryApiDto();
+
+		    dto.setId(orderHistory.getId());
+		    dto.setProductName(orderHistory.getItem().getName()); // プロパティ名を修正
+		    dto.setManagerName(orderHistory.getAdmin().getLastName());
+		    dto.setOrderQuantity(orderHistory.getNumberOfOrders());
+		    dto.setTotalAmount(orderHistory.getTotalAmount());
+
+		    return dto;
+		}
+
 
 }

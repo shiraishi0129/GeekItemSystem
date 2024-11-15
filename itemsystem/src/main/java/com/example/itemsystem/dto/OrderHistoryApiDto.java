@@ -6,7 +6,7 @@ import lombok.Data;
 public class OrderHistoryApiDto {
 	  
 	private Long id;
-	private String productNname;
+	private String productName;
 	private String managerName;
 	private Long orderQuantity;
 	private Long totalAmount;

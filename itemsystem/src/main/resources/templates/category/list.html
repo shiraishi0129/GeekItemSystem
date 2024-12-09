@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>大カテゴリー一覧</title>
+</head>
+<body>
+    <h1>大カテゴリー一覧</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>大カテゴリー名</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="largecategory : ${itemLargeCategoryList}">
+                <td>
+					<a 	th:href="@{/category/bigdetail/:id(id=${largecategory.id})}" th:text="${largecategory.id}"></a>
+				</td>
+                <td th:text="${largecategory.name}"></td>
+            </tr>
+        </tbody>
+    </table>
+		<form action="/top" method="post"	th:action="@{/top}">
+							<button class="back-button">TOPメニューへ戻る</button>
+		</form>
+</body>
+</html>

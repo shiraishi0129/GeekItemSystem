@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中カテゴリー詳細</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>中カテゴリー詳細</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>中カテゴリ―名</th>
+                    <th>作成日時</th>
+                    <th>更新日時</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 現在のデータを表示 -->
+                <tr th:each="itemUnderCategory : ${itemUnderCategory}">
+                    <td th:text="${itemUnderCategory.id}"></td>
+                    <td th:text="${itemUnderCategory.name}"></td>
+                    <td th:text="${itemUnderCategory.created_at}"></td>
+                    <td th:text="${itemUnderCategory.updated_at}"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>中カテゴリー名</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- underCategoryに格納された各項目をループして表示 -->
+                <tr th:each="smallCategory : ${smallCategory}">
+                    <td>
+                        <a th:href="@{/category/smalldetail/:id(id=${smallCategory.id})}"th:text="${smallCategory.id}"></a>
+                    </td>
+                    <td th:text="${smallCategory.name}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <form th:action="@{/category/list}" method="post">
+            <button type="submit">大カテゴリー一覧画面へ戻る</button>
+        </form>
+    </div>
+</body>
+</html>

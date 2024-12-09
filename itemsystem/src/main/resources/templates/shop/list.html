@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>店舗一覧</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>店舗一覧</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>住所</th>
+				<th>名前</th>
+                <th>作成日時</th>
+                <th>更新日時</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <!-- adminListに格納された各AdminEntityのプロパティをループして表示 -->
+            <tr th:each="shop : ${shopList}">
+                <td>
+					<a th:href="@{/shop/detail/{id}(id=${shop.id})}"th:text="${shop.id}"></a>
+				</td>
+				<td th:text="${shop.name}"></td>
+                <td th:text="${shop.addres}"></td>
+         		<td th:text="${shop.created_at}"></td>
+                <td th:text="${shop.updated_at}"></td> 
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="buttons">
+		<form action="/shop/signup" method="post"th:action="@{/shop/signup}">
+			<button>店舗新規登録画面へ</button>
+		</form>
+		<form th:action="@{/shop/edit/:id(id=${id})}" method="get">
+		    <input type="text" id="id" name="id" placeholder="IDを入力" required>
+		    <button type="submit">IDを入力して店舗編集画面へ</button>
+		</form>
+
+
+    </div>
+	<form action="/top" method="post"	th:action="@{/top}">
+						<button class="back-button">TOPメニューへ戻る</button>
+	</form>
+    
+</body>
+</html>
+

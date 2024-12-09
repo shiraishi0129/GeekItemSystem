@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小カテゴリー詳細</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>小カテゴリー詳細</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>小カテゴリ―名</th>
+                    <th>作成日時</th>
+                    <th>更新日時</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 現在のデータを表示 -->
+                <tr th:each="itemSmallCategory : ${itemSmallCategory}">
+                    <td th:text="${itemSmallCategory.id}"></td>
+                    <td th:text="${itemSmallCategory.name}"></td>
+                    <td th:text="${itemSmallCategory.created_at}"></td>
+                    <td th:text="${itemSmallCategory.updated_at}"></td>
+                </tr>
+            </tbody>
+        </table>
+         <form th:action="@{/category/list}" method="post">
+            <button type="submit">大カテゴリー一覧画面へ戻る</button>
+        </form>
+    </div>
+</body>
+
+

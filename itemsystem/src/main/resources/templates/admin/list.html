@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者一覧</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>管理者一覧</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>姓</th>
+                <th>名</th>
+                <th>作成日時</th>
+                <th>更新日時</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <!-- adminListに格納された各AdminEntityのプロパティをループして表示 -->
+            <tr th:each="admin : ${adminList}">
+                <td>
+					<a th:href="@{/admin/detail/{id}(id=${admin.id})}"th:text="${admin.id}"></a>
+				</td>
+                <td th:text="${admin.lastName}"></td>
+                <td th:text="${admin.firstName}"></td>
+         		<td th:text="${admin.created_at}"></td>
+                <td th:text="${admin.updated_at}"></td> 
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="buttons">
+		<form action="/admin/signup" method="post"th:action="@{/admin/signup}">
+			<button>管理者新規登録画面へ</button>
+		</form>
+		<form th:action="@{/admin/edit/:id(id=${id})}" method="get">
+		    <input type="text" id="id" name="id" placeholder="IDを入力" required>
+		    <button type="submit">IDを入力して管理者編集画面へ</button>
+		</form>
+
+
+    </div>
+	<form action="/top" method="post"	th:action="@{/top}">
+						<button class="back-button">TOPメニューへ戻る</button>
+	</form>
+    
+</body>
+</html>
+

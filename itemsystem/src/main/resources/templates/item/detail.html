@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品詳細</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>商品詳細</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>商品名</th>
+                    <th>商品画像</th>
+                    <th>商品説明</th>
+                    <th>仕入原価</th>
+                    <th>メーカー希望販売価格</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 現在のデータを表示 -->
+                <tr>
+                    <td th:text="${item.id}"></td>
+                    <td th:text="${item.name}"></td>
+          			<td>
+						<img th:src="${item.image}" alt="商品画像" width="100"/>
+					</td>
+                    <td th:text="${item.productDescription}"></td>
+                    <td th:text="${item.purchasePrice}"></td>
+                    <td th:text="${item.retailPrice}"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="info-box">
+            <h2 class="info-title">小カテゴリー情報</h2>
+            <ul	style="list-style-type: none;">
+                <li th:text="${item.itemSmallCategory.name}"></li>
+            </ul>
+        </div>
+
+		<table>
+		    <thead>
+		        <tr>
+		            <th>販売価格</th>
+		            <th>在庫数</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		        <!-- 現在のデータを表示 -->
+		        <tr th:each="shopItem : ${shopItem}">
+		            <td th:text="${shopItem.salePrice}"></td>
+		            <td th:text="${shopItem.quantityOfStock}"></td>
+		        </tr>
+		    </tbody>
+		</table>
+        <!-- 常に表示される発注ボタン -->
+		<form action="#" method="post" th:action="@{/item/order/{id}(id=${item.id})}">
+		    <button type="submit">発注画面へ</button>
+		</form>
+
+        <form action="/item/list" method="post" th:action="@{/item/list}">
+            <button type="submit">商品一覧画面へ戻る</button>
+        </form>
+    </div>
+</body>
+</html>
